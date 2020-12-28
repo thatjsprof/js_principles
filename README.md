@@ -18,3 +18,6 @@ The course content goes as follows:
 13. Asynchronous JavaScript: The eventn loop
 14. Promises
 15. Modern JavaScript
+
+## Resources
+- https://wwww.codingheroes.com/resources
