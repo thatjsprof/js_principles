@@ -51,3 +51,12 @@ E.g
 - Typeof operator returns the type of variable e.g typeof variable_name
 - Operator precedence check developer.mozilla.org then type operator precedence
 */
+
+
+
+// Conditionals
+/*
+- If/else statements
+- The ternary operator ?
+- Switch statements
+*/
