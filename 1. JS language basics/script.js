@@ -76,3 +76,11 @@ E.g
 - functions take arguments and are called
 - function statements and expressions. expressions are assigned to a variable
 */
+
+
+
+// Arrays
+/*
+- create arrays using [] or new Array()
+- push, pop, unshift e.t.c are examples of array methods
+*/
