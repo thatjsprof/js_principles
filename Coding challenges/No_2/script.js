@@ -27,7 +27,7 @@ function tipCalculator(bill) {
             tip = 10
             break
         default:
-            return 'bill too high'
+            return null
     }
     return (tip / 100) * bill 
 }
