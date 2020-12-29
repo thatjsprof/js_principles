@@ -84,3 +84,16 @@ E.g
 - create arrays using [] or new Array()
 - push, pop, unshift e.t.c are examples of array methods
 */
+
+
+
+// Objects and properties
+/*
+- Objects are created using the {} brackets
+*/
+
+
+
+// Objects and methods
+/*
+*/
