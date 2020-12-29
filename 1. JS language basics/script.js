@@ -60,3 +60,9 @@ E.g
 - The ternary operator ?
 - Switch statements
 */
+
+// Truthy, falsy values and equality operators
+/*
+- Falsy values: null, undefined, '', 0
+- Truthy values: not falsy values
+*/
