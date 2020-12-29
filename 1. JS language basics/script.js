@@ -61,8 +61,18 @@ E.g
 - Switch statements
 */
 
+
+
 // Truthy, falsy values and equality operators
 /*
 - Falsy values: null, undefined, '', 0
 - Truthy values: not falsy values
+*/
+
+
+
+// Functions
+/*
+- functions take arguments and are called
+- function statements and expressions. expressions are assigned to a variable
 */
