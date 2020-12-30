@@ -1,3 +1,4 @@
+// Coding challenge 3a
 var john = {
     name: 'John',
     age: 12,
@@ -28,3 +29,37 @@ if(johnBMI > markBMI) {
 }else {
     console.log('They both have the same BMI')
 }
+
+// Coding challenge 3b
+var billsInfo = {
+    bills: [124, 48, 268, 180, 42],
+    tips: [],
+    finalBills: [],
+    calcTip: function(){
+        for(var i = 0; i < this.bills.length; i++) {
+            var bill = this.bills[i], tip
+            switch(true) {
+                case bill < 50:
+                    tip = 20
+                    break
+                case bill >= 50 && bill < 200:
+                    tip = 15
+                    break
+                case bill > 200:
+                    tip = 10
+                    break
+                default:
+                    return null
+            }
+            var finalTip = Math.round((tip / 100) * bill)
+            this.tips.push(finalTip)
+            this.finalBills.push(finalTip + bill)
+        }
+    },
+    showAll: function() {
+        this.calcTip()
+        console.log(this.tips, this.finalBills)
+    }
+}
+
+billsInfo.showAll()
