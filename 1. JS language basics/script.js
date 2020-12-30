@@ -96,4 +96,11 @@ E.g
 
 // Objects and methods
 /*
+- You can create methods in objects using the function keyword and access values in the object using the this keyword
+*/
+
+
+
+// Loops and iterations
+/*
 */
