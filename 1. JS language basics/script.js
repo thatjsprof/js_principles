@@ -105,3 +105,10 @@ E.g
 /*
 - for, while and do while loops
 */
+
+
+
+// How JavaScript works behind the scenes
+/*
+- learnt about the javascript engine
+*/
