@@ -111,5 +111,9 @@ E.g
 // How JavaScript works behind the scenes
 /*
 - learnt about the javascript engine
-- learnt about execution contexts and execution stacks
+- learnt about execution contexts and execution stacks:
+    - Global execution context are seen as global objects and incude code that is not inside a function
+    - Each time we call a function it gets its own execution context
+    - Execution stacks are formed based on the functions that are being executed
+    - As the functions are executed the contexts are popped off the stack
 */
