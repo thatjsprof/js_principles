@@ -111,4 +111,5 @@ E.g
 // How JavaScript works behind the scenes
 /*
 - learnt about the javascript engine
+- learnt about execution contexts and execution stacks
 */
