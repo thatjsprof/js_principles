@@ -130,3 +130,15 @@ E.g
         - Method call: the this variable points to the object that is calling the method
         - The this variable is not assigned a value until the function where it is called is defined
 */
+
+
+
+// The DOM and DOM manipulation
+/*
+- means document object model
+- connects html with scripted languages
+- for each html box there is a object in the DOM that we can use to access and interact with
+- Events: notifications we make to code
+- Event listener: a function that performs an action based on the occurence of a particular event
+
+*/
