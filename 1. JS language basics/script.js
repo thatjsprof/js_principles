@@ -116,4 +116,9 @@ E.g
     - Each time we call a function it gets its own execution context
     - Execution stacks are formed based on the functions that are being executed
     - As the functions are executed the contexts are popped off the stack
+    - In the creation phase we have the creation of the variable object, then the creation of the scope chain and finally determining the context of the this variable
+    - Creating the variable object:
+        - The argument object is created which contains all the arguments that were passed into the function
+        - The code is scanned for function declarations for each function a property is created in the variable object pointing to the function
+        - The code is scanned also for variable declarations. This principle is referred to as hoisting which means that the variables and funcrions are declared before the code is run. variables are set to undefined
 */
