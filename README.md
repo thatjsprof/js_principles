@@ -1,7 +1,7 @@
 # learning_js
 This repository holds the code I used to learn javascript from the complete javascript course by Jonas Schmedtmann
 
-# Course Content
+## Course Content
 The course content goes as follows:
 1. A brief introduction to JavaScript ✓
 2. JavaScript versions: ES5, ES6 / ES2015, ES6+
@@ -19,5 +19,8 @@ The course content goes as follows:
 14. Promises
 15. Modern JavaScript
 
+## Projects built
+- A simple dice rolling game to understand the concepts of DOM manipulation
+
 ## Resources
-- https://wwww.codingheroes.com/resources
+- https://wwww.codingheroes.io/resources
