@@ -9,6 +9,7 @@
 - learnt more about objects and primitives
 - Learnt how to pass functions as argumants
 - Learnt how to return functions from functions
+- Learnt about immediately invoked functions
 */
 
 // Function constructor
@@ -57,16 +58,22 @@ function calculate(val) {
 console.log(mutate(arr, calculate))
 
 // returning functions
-function calculate(occ) {
-    if(occ == 'teacher') {
-        return function(name) {
-            console.log('What subject do you teach?', name)
-        }
-    }else{
-        return function(name) {
-            console.log('you are a', occ)
-        }
-    }
-}
-var occ = calculate('farmer')
-occ('mary')
+// function calculate(occ) {
+//     if(occ == 'teacher') {
+//         return function(name) {
+//             console.log('What subject do you teach?', name)
+//         }
+//     }else{
+//         return function(name) {
+//             console.log('you are a', occ)
+//         }
+//     }
+// }
+// var occ = calculate('farmer')
+// occ('mary')
+
+// IIFES
+// (function(num) {
+//     var score = Math.random() * 10
+//     console.log(num > score)
+// })(5)
