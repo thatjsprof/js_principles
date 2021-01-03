@@ -11,6 +11,7 @@
 - Learnt how to return functions from functions
 - Learnt about immediately invoked functions
 - Learnt about closures
+- Learnt about bind, call and apply methods
 */
 
 // Function constructor
@@ -99,3 +100,22 @@ function score() {
 }
 
 score()(3)
+
+var mark = {
+    name: 'mark',
+    called: function(occ, age) {
+        if(occ == 'teacher') {
+            return occ + ' and age ' + age
+        }
+    }
+}
+
+var emily = {
+    name: 'emily'
+}
+
+var apply = mark.called.apply(emily, ['teacher'])
+console.log(apply)
+
+var johnFig = mark.called.bind(mark, 'teacher')
+console.log(johnFig(23))
