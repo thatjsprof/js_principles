@@ -6,6 +6,7 @@
 - Learnt about prototypes and the prototype chain
 - Learnt how to create objects using function constructors
 - Learnt how to create objects using object.create
+- learnt more about objects and primitives
 */
 
 // Function constructor
