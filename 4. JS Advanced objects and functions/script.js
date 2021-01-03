@@ -10,6 +10,7 @@
 - Learnt how to pass functions as argumants
 - Learnt how to return functions from functions
 - Learnt about immediately invoked functions
+- Learnt about closures
 */
 
 // Function constructor
@@ -77,3 +78,24 @@ console.log(mutate(arr, calculate))
 //     var score = Math.random() * 10
 //     console.log(num > score)
 // })(5)
+
+function retirement(retirementAge) {
+    var a = 'years left until retirement'
+    return function(yearOfBirth) {
+        var age = 2021 - yearOfBirth
+        console.log((retirementAge - age) + a)
+    }
+}
+
+var retirementUS = retirement(65)
+retirementUS(1990)
+
+function score() {
+    var score = 0
+    return function(val) {
+        score += val
+        console.log(score)
+    }
+}
+
+score()(3)
