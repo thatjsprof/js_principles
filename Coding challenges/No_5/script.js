@@ -1,4 +1,6 @@
 (function(){ 
+    var gamePlaying = true
+
     var Question = function(question, answers,  correct) {
         this.question = question
         this.answers = answers
@@ -6,12 +8,15 @@
         this.show = function() {
             console.log('Question:', this.question)
             for(var i = 0; i < this.answers.length; i++) {
-                console.log('Answer:', this.answers[i])
+                console.log(i, ':', this.answers[i])
             }
         },
         this.isCorrect = function(ans) {
-            if(ans === this.correct) {
+            if(+ans === this.correct) {
                 return true
+            }else if(ans == 'exit') {
+                gamePlaying = false
+                return null
             }
             return false;
         }
@@ -23,16 +28,26 @@
 
     var questArray = [question1, question2, question3]
 
-    var random = Math.floor(Math.random() * questArray.length)
+    function displayQuestion() {
+        if(gamePlaying) {
+            var random = Math.floor(Math.random() * questArray.length)
+            var randomQuestion = questArray[random]
 
-    var randomQuestion = questArray[random]
-
-    console.log(randomQuestion.show())
-
-    var userInput = +prompt('Type in your answer')
-
-    console.log(randomQuestion.isCorrect(userInput) 
-        ? 'You got it right'
-        : 'You got it wrong'
-    )
+            console.log(randomQuestion.show())
+            var userInput = prompt('Type in your answer')
+            var ret = randomQuestion.isCorrect(userInput)
+            if(ret) {
+                res = 'You got it right'
+            }else if(ret == null) {
+                res = ''
+            }else {
+                res = 'You got it wrong'
+            }
+            console.log(res)
+            displayQuestion()
+        }else {
+            console.log('You quit the game')
+        }
+    }
+    displayQuestion()
 })()
