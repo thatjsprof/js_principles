@@ -21,6 +21,8 @@ The course content goes as follows:
 
 ## Projects built
 - A simple dice rolling game to understand the concepts of DOM manipulation
+- A simple budget app for managing incomes and expenses
 
 ## Resources
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript
 - https://wwww.codingheroes.io/resources
