@@ -2,13 +2,13 @@ var budgetController = (function() {
     var Expense = function(id, description, value) {
         this.id = id
         this.description = description
-        this.value = this.value
+        this.value = value
     }
-    
+
     var Income = function(id, description, value) {
         this.id = id
         this.description = description
-        this.value = this.value
+        this.value = value
     }
 
     var allExpenses = []
@@ -25,6 +25,27 @@ var budgetController = (function() {
             inc: 0
         }
     }
+
+    return {
+        addItem: function(type, description, value) {
+            var newItem, ID
+            
+            if(data.allItems[type].length > 0) ID = data.allItems[type][data.allItems[type].length - 1].id + 1
+            else ID = 0
+
+            if(type === 'exp') {
+                newItem = new Expense(ID, description, value)
+            }else if(type === 'inc') {
+                newItem = new Income(ID, description, value)
+            }
+
+            data.allItems[type].push(newItem)
+            return newItem
+        },
+        testing: function() {
+            return data
+        }
+    }
 })()
 
 var UIController = (function() {
@@ -37,9 +58,9 @@ var UIController = (function() {
     return {
         getInput: function() {
             return {
-                type: document.querySelector(DOMStrings.inputType).vaue,
-                desc: document.querySelector(DOMStrings.inputDescription).vaue,
-                value: document.querySelector(DOMStrings.inputValue).vaue
+                type: document.querySelector(DOMStrings.inputType).value,
+                desc: document.querySelector(DOMStrings.inputDescription).value,
+                value: document.querySelector(DOMStrings.inputValue).value
             }
         },
         getDOMStrings: function() {
@@ -52,7 +73,10 @@ var controller = (function(budgetCtr, UICtr) {
     var DOM = UICtr.getDOMStrings()
 
     var ctrAddItem = function() {
-        var input = UICtr.getInput()
+        var input, newItem
+
+        input = UICtr.getInput() //get input
+        newItem = budgetCtr.addItem(input.type, input.desc, input.value)
     }
 
     var setUpEventListeners = function() {
