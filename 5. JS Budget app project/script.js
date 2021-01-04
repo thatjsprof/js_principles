@@ -11,10 +11,6 @@ var budgetController = (function() {
         this.value = value
     }
 
-    var allExpenses = []
-    var allIncomes = []
-    var totalExpenses = 0
-
     var data = {
         allItems: {
             exp: [],
@@ -23,7 +19,19 @@ var budgetController = (function() {
         totals: {
             exp: 0,
             inc: 0
-        }
+        },
+        budget: 0,
+        percentage: 0
+    }
+
+    var calculateTotal = function(type) {
+        var sum = 0
+
+        data.allItems[type].forEach((cur, index) => {
+            sum += cur.value
+        })
+
+        data.totals[type] = sum
     }
 
     return {
@@ -41,6 +49,22 @@ var budgetController = (function() {
 
             data.allItems[type].push(newItem)
             return newItem
+        },
+        calculateBudget: function(){
+            calculateTotal('exp')
+            calculateTotal('inc')
+
+            data.budget = data.totals.inc - data.totals.exp
+            if(data.totals.inc > 0) data.percentage = Math.round(data.totals.exp / data.totals.inc * 100)
+            else data.percentage = -1
+        },
+        getBudget: function() {
+            return {
+                budget: data.budget,
+                totalExp: data.totals.exp,
+                totalInc: data.totals.inc,
+                percentage: data.percentage
+            }
         },
         testing: function() {
             return data
@@ -83,6 +107,21 @@ var UIController = (function() {
 
             document.querySelector(element).insertAdjacentHTML('beforeend', newHTMl)
         },
+        updateUI: function() {
+            //
+        },
+        clearFields: function() {
+            var fields, fieldsArray
+
+            fields = document.querySelectorAll(DOMStrings.inputDescription, DOMStrings.inputType, DOMStrings.inputValue)
+            fieldsArray = Array.prototype.slice.call(fields)
+            
+            fieldsArray.forEach((curr, index, array) => {
+                curr.value = ''
+            })
+
+            fieldsArray[0].focus()
+        },
         getDOMStrings: function() {
             return DOMStrings
         }
@@ -98,6 +137,16 @@ var controller = (function(budgetCtr, UICtr) {
         input = UICtr.getInput() //get input
         newItem = budgetCtr.addItem(input.type, input.desc, input.value)
         UICtr.addListItem(newItem, input.type)
+        UICtr.clearFields()
+        updateBudget()
+    }
+
+    var updateBudget = function() {
+        var budget
+
+        budgetCtr.calculateBudget()
+        budget = budgetCtr.getBudget()
+        UICtr.updateUI(budget)
     }
 
     var setUpEventListeners = function() {
