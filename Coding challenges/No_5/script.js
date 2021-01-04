@@ -4,9 +4,9 @@
         this.answers = answers
         this.correct = correct
         this.show = function() {
-            return {
-                question: this.question,
-                answers: this.answers
+            console.log('Question:', this.question)
+            for(var i = 0; i < this.answers.length; i++) {
+                console.log('Answer:', this.answers[i])
             }
         },
         this.isCorrect = function(ans) {
