@@ -1,5 +1,30 @@
 var budgetController = (function() {
-    //
+    var Expense = function(id, description, value) {
+        this.id = id
+        this.description = description
+        this.value = this.value
+    }
+    
+    var Income = function(id, description, value) {
+        this.id = id
+        this.description = description
+        this.value = this.value
+    }
+
+    var allExpenses = []
+    var allIncomes = []
+    var totalExpenses = 0
+
+    var data = {
+        allItems: {
+            exp: [],
+            inc: []
+        },
+        totals: {
+            exp: 0,
+            inc: 0
+        }
+    }
 })()
 
 var UIController = (function() {
@@ -30,8 +55,19 @@ var controller = (function(budgetCtr, UICtr) {
         var input = UICtr.getInput()
     }
 
-    document.querySelector(DOM.inputBtn).addEventListener('click', ctrAddItem)
-    document.addEventListener('keypress', function(e) {
-        if(e.keyCode == 13 || e.which === 13) ctrAddItem()
-    })
+    var setUpEventListeners = function() {
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrAddItem)
+        document.addEventListener('keypress', function(e) {
+            if(e.keyCode == 13 || e.which === 13) ctrAddItem()
+        })
+    }
+
+    return {
+        init: function() {
+            console.log('Application started')
+            setUpEventListeners()
+        }
+    }
 })(budgetController, UIController)
+
+controller.init()
