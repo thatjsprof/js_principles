@@ -79,7 +79,11 @@ var UIController = (function() {
         inputValue: '.add__value',
         inputBtn: '.add__btn',
         incomeCont: '.income__list',
-        expenseCont: '.expenses__list'
+        expenseCont: '.expenses__list',
+        budgetLabel: '.budget__value',
+        incomeLabel: '.budget__income--value',
+        expensesLabel: '.budget__expenses--value',
+        percentageLabel: '.budget__expenses--percentage'
     }
     return {
         getInput: function() {
@@ -107,8 +111,20 @@ var UIController = (function() {
 
             document.querySelector(element).insertAdjacentHTML('beforeend', newHTMl)
         },
-        updateUI: function() {
-            //
+        updateUI: function(obj) {
+            var perc
+
+            document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget
+            document.querySelector(DOMStrings.incomeLabel).textContent = obj.totalInc
+            document.querySelector(DOMStrings.expensesLabel).textContent = obj.totalExp
+            
+            perc = document.querySelector(DOMStrings.percentageLabel)
+            
+            if(obj.percentage <= 0) {
+                perc.textContent = '---'
+            }else{
+                perc.textContent = obj.percentage + '%'
+            }
         },
         clearFields: function() {
             var fields, fieldsArray
@@ -162,6 +178,12 @@ var controller = (function(budgetCtr, UICtr) {
     return {
         init: function() {
             console.log('Application started')
+            UICtr.updateUI({
+                budget: 0,
+                totalInc: 0,
+                totalExp: 0,
+                percentage: -1
+            })
             setUpEventListeners()
         }
     }
