@@ -53,7 +53,9 @@ var UIController = (function() {
         inputType: '.add__type',
         inputDescription: '.add__description',
         inputValue: '.add__value',
-        inputBtn: '.add__btn'
+        inputBtn: '.add__btn',
+        incomeCont: '.income__list',
+        expenseCont: '.expenses__list'
     }
     return {
         getInput: function() {
@@ -62,6 +64,24 @@ var UIController = (function() {
                 desc: document.querySelector(DOMStrings.inputDescription).value,
                 value: document.querySelector(DOMStrings.inputValue).value
             }
+        },
+        addListItem: function(obj, type){
+            var html, newHTMl, element
+            
+            if(type === 'inc') {
+                element = DOMStrings.incomeCont
+                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+            }
+            else if(type == 'exp') {
+                element = DOMStrings.expenseCont 
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+            }
+            
+            newHTMl = html.replace('%id%', obj.id)
+            newHTMl = newHTMl.replace('%description%', obj.description)
+            newHTMl = newHTMl.replace('%value%', obj.value)
+
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHTMl)
         },
         getDOMStrings: function() {
             return DOMStrings
@@ -77,6 +97,7 @@ var controller = (function(budgetCtr, UICtr) {
 
         input = UICtr.getInput() //get input
         newItem = budgetCtr.addItem(input.type, input.desc, input.value)
+        UICtr.addListItem(newItem, input.type)
     }
 
     var setUpEventListeners = function() {
