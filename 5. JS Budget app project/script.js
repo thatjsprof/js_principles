@@ -7,7 +7,7 @@ var budgetController = (function() {
 
     Expense.prototype.calculatePercentage = function(totalIncome) {
         if(totalIncome > 0) {
-            this.percentagr = Math.round((this.value / totalIncome) * 100)
+            this.percentage = Math.round((this.value / totalIncome) * 100)
         }else {
             this.percentage = -1
         }
@@ -79,16 +79,16 @@ var budgetController = (function() {
 
             index = ids.indexOf(id)
 
-            if(index !== -1) data.alItems[type].splice(index, 1)
+            if(index !== -1) data.allItems[type].splice(index, 1)
         },
         calculatePercentages() {
-            data.alItems.exp.forEach(item => {
+            data.allItems.exp.forEach(item => {
                 item.calculatePercentage(data.totals.inc)
             })
         },
         getPercentages() {
             var allPerc = data.allItems.exp.map(function(cur) {
-                return cur.getPercentages()
+                return cur.getPercentage()
             })
             return allPerc
         },
@@ -145,6 +145,10 @@ var UIController = (function() {
             newHTMl = newHTMl.replace('%value%', obj.value)
 
             document.querySelector(element).insertAdjacentHTML('beforeend', newHTMl)
+        },
+        deleteListItem(selectorID) {
+            var el = document.getElementById(selectorID)
+            el.parentNode.removeChild(el)
         },
         updateUI: function(obj) {
             var perc
@@ -209,8 +213,10 @@ var controller = (function(budgetCtr, UICtr) {
             ID = parseInt(split[1])
 
             budgetCtr.deleteItem(type, ID)
+            UICtr.deleteListItem(item)
+            updateBudget()
         }
-    },
+    }
 
     var updateBudget = function() {
         var budget
@@ -223,7 +229,8 @@ var controller = (function(budgetCtr, UICtr) {
     var updatePercentages = function() {
         budgetCtr.calculatePercentages()
         var percentages = budgetCtr.getPercentages()
-    },
+        console.log(percentages)
+    }
 
     var setUpEventListeners = function() {
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrAddItem)
