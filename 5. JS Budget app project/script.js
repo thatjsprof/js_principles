@@ -73,8 +73,8 @@ var budgetController = (function() {
         deleteItem(id, type) {
             var ids, index
 
-            ids = data.allItems[type].forEach(item => {
-                return current.id
+            ids = data.allItems[type].map(item => {
+                return item.id
             })
 
             index = ids.indexOf(id)
@@ -118,7 +118,8 @@ var UIController = (function() {
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
-        container: '.container'
+        container: '.container',
+        expensesPerLabel: '.item__percentage'
     }
     return {
         getInput: function() {
@@ -137,7 +138,7 @@ var UIController = (function() {
             }
             else if(type == 'exp') {
                 element = DOMStrings.expenseCont 
-                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">10%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
             }
             
             newHTMl = html.replace('%id%', obj.id)
@@ -179,6 +180,20 @@ var UIController = (function() {
 
             fieldsArray[0].focus()
         },
+        displayPercentages(percentages) {
+            var fields = document.querySelectorAll(DOMStrings.expensesPerLabel)
+
+            var nodesList = function(list, callback) {
+                for(var i = 0; i < list.length; i++) {
+                    callback(list[i], i)
+                }
+            }
+
+            nodesList(fields, function(current, index) {
+                if(percentages[index] > 0) current.textContent = percentages[index] + '%'
+                else current.textContent = '----'
+            })
+        },
         getDOMStrings: function() {
             return DOMStrings
         }
@@ -209,10 +224,12 @@ var controller = (function(budgetCtr, UICtr) {
 
         if(item) {
             split = item.split('-')
-            type = split[0]
+            type = split[0] == 'income' ? 'inc': 'exp'
             ID = parseInt(split[1])
 
-            budgetCtr.deleteItem(type, ID)
+            console.log(type)
+
+            budgetCtr.deleteItem(ID, type)
             UICtr.deleteListItem(item)
             updateBudget()
         }
@@ -229,7 +246,7 @@ var controller = (function(budgetCtr, UICtr) {
     var updatePercentages = function() {
         budgetCtr.calculatePercentages()
         var percentages = budgetCtr.getPercentages()
-        console.log(percentages)
+        UICtr.displayPercentages(percentages)
     }
 
     var setUpEventListeners = function() {
