@@ -35,7 +35,7 @@ var budgetController = (function() {
     }
 
     return {
-        addItem: function(type, description, value) {
+        addItem(type, description, value) {
             var newItem, ID
             
             if(data.allItems[type].length > 0) ID = data.allItems[type][data.allItems[type].length - 1].id + 1
@@ -50,7 +50,7 @@ var budgetController = (function() {
             data.allItems[type].push(newItem)
             return newItem
         },
-        calculateBudget: function(){
+        calculateBudget(){
             calculateTotal('exp')
             calculateTotal('inc')
 
@@ -58,7 +58,18 @@ var budgetController = (function() {
             if(data.totals.inc > 0) data.percentage = Math.round(data.totals.exp / data.totals.inc * 100)
             else data.percentage = -1
         },
-        getBudget: function() {
+        deleteItem(id, type) {
+            var ids, index
+
+            ids = data.allItems[type].forEach(item => {
+                return current.id
+            })
+
+            index = ids.indexOf(id)
+
+            if(index !== -1) data.alItems[type].splice(index, 1)
+        },
+        getBudget() {
             return {
                 budget: data.budget,
                 totalExp: data.totals.exp,
@@ -66,7 +77,7 @@ var budgetController = (function() {
                 percentage: data.percentage
             }
         },
-        testing: function() {
+        testing() {
             return data
         }
     }
@@ -83,7 +94,8 @@ var UIController = (function() {
         budgetLabel: '.budget__value',
         incomeLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
-        percentageLabel: '.budget__expenses--percentage'
+        percentageLabel: '.budget__expenses--percentage',
+        container: '.container'
     }
     return {
         getInput: function() {
@@ -114,16 +126,18 @@ var UIController = (function() {
         updateUI: function(obj) {
             var perc
 
-            document.querySelector(DOMStrings.budgetLabel).textContent = obj.budget
-            document.querySelector(DOMStrings.incomeLabel).textContent = obj.totalInc
-            document.querySelector(DOMStrings.expensesLabel).textContent = obj.totalExp
+            ({budget, totalInc, totalExp, percentage} = obj)
+
+            document.querySelector(DOMStrings.budgetLabel).textContent = budget
+            document.querySelector(DOMStrings.incomeLabel).textContent = totalInc
+            document.querySelector(DOMStrings.expensesLabel).textContent = totalExp
             
             perc = document.querySelector(DOMStrings.percentageLabel)
             
             if(obj.percentage <= 0) {
                 perc.textContent = '---'
             }else{
-                perc.textContent = obj.percentage + '%'
+                perc.textContent = percentage + '%'
             }
         },
         clearFields: function() {
@@ -157,8 +171,23 @@ var controller = (function(budgetCtr, UICtr) {
             UICtr.addListItem(newItem, input.type) // display new item to UI
             UICtr.clearFields() // clear fields
             updateBudget() // updated budget calculations
+            updatePercentages() // update percentages
         }
     }
+
+    var ctrDeleteItem = function(e) {
+        var item, split, type, ID
+
+        item = e.target.parentNode.parentNode.parentNode.parentNode.id
+
+        if(item) {
+            split = item.split('-')
+            type = split[0]
+            ID = parseInt(split[1])
+
+            budgetCtr.deleteItem(type, ID)
+        }
+    },
 
     var updateBudget = function() {
         var budget
@@ -168,11 +197,17 @@ var controller = (function(budgetCtr, UICtr) {
         UICtr.updateUI(budget)
     }
 
+    var updatePercentages = function() {
+        
+    },
+
     var setUpEventListeners = function() {
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrAddItem)
         document.addEventListener('keypress', function(e) {
             if(e.keyCode == 13 || e.which === 13) ctrAddItem()
         })
+
+        document.querySelector(DOM.container).addEventListener('click', ctrDeleteItem)
     }
 
     return {

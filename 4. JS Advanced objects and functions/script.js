@@ -119,3 +119,18 @@ console.log(apply)
 
 var johnFig = mark.called.bind(mark, 'teacher')
 console.log(johnFig(23))
+
+// ?? operator
+// && operator
+
+var name
+
+function setName() {
+    var i = 0, name = 'make'
+
+    return {
+        [name + ++i]: 'peter',
+        [name + ++i]: 'john',
+        [name + ++i]: 'david'
+    }
+}
