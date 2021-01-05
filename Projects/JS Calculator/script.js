@@ -18,6 +18,8 @@ var calculatorController = (function() {
 })()
 
 var UIController = (function() {
+    var temp = ''
+
     var DOM = {
         tableBody: 'tbody',
         screen: '#screen',
@@ -36,16 +38,31 @@ var UIController = (function() {
     return {
         getInput() {},
         showOnScreen(value, hold) {
-            var screen, ref
+            var screen, ref, lastValue, ret
 
-            hold.push(value)
-            ref = hold.join(' ')
+            lastValue = hold[hold.length - 1]
+
+            ret = Object.values(operators).includes(lastValue)
+
+            if(operators[value] && !ret) {
+                if(hold.length > 0) hold.push(operators[value]);
+            }
+            else {
+                if(operators[value] == undefined) {
+                    temp += value
+                }
+                if(temp !== '') hold.push(temp)
+            }
+             
+            ref = hold.join(' ');
+            temp = ''
 
             screen = document.querySelector(DOM.screen)
             screen.textContent = ref
         },
         reset() {
             document.querySelector(DOM.screen).textContent = ''
+            temp = ''
         },
         getValues() {
             return {
@@ -58,28 +75,18 @@ var UIController = (function() {
 })()
 
 var controller = (function(calcCtr, UICtr){
-    var {DOM, operators, out} = UICtr.getValues(), temp = ''
+    var {DOM, operators, out} = UICtr.getValues()
 
     var getValue = function(e) {
         var id, hold
 
         ({hold} = calcCtr.getData())
         id = e.target.id
-        lastValue = hold[hold.length - 1]
 
         var show = UICtr.showOnScreen
 
         if(id !== '' && !out.includes(id)) {
-            if(operators[id]) {
-                if(temp !== '') show(+temp, hold); temp = ''
-                if(hold.length > 0) show(operators[id], hold)
-            }
-            else {
-                if(operators[id] == undefined) {
-                    temp += id
-                }
-            }
-            console.log(temp)
+            show(id, hold)
         }
     }
 
