@@ -27,3 +27,4 @@ The course content goes as follows:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript
 - https://wwww.codingheroes.io/resources
 - https://javascript.info/ : for modern javascript referencing
+- https://blog.garstasio.com/you-dont-need-jquery/ : DOM referencing
