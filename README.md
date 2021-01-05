@@ -26,3 +26,4 @@ The course content goes as follows:
 ## Resources
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript
 - https://wwww.codingheroes.io/resources
+- https://javascript.info/ : for modern javascript referencing
