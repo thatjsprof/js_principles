@@ -121,6 +121,24 @@ var UIController = (function() {
         container: '.container',
         expensesPerLabel: '.item__percentage'
     }
+
+    var formatNumber = function(num, type) {
+        var numSplit, int, dec, sign
+
+        num = Math.abs(num)
+        num = num.toFixed(2)
+
+        numSplit = num.split('.')
+
+        int = numSplit[0]
+        dec = numSplit[1]
+
+        if(int.length > 3) {
+            int.subStr(0, int.length - 3) + ',' + int.subStr(int.length - 3, int.length)
+        }
+
+        return(type === 'exp' ? '-' : '+' + int + '.' + dec)
+    },
     return {
         getInput: function() {
             return {
@@ -143,7 +161,7 @@ var UIController = (function() {
             
             newHTMl = html.replace('%id%', obj.id)
             newHTMl = newHTMl.replace('%description%', obj.description)
-            newHTMl = newHTMl.replace('%value%', obj.value)
+            newHTMl = newHTMl.replace('%value%', formatNumber(obj.value, type))
 
             document.querySelector(element).insertAdjacentHTML('beforeend', newHTMl)
         },
