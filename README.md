@@ -13,9 +13,9 @@ The course content goes as follows:
 8. The DOM and DOM manipulation ✓
 9. Events and event handling ✓
 10. Inheritance and the prototype chain
-11. Closures
-12. Event delegation
-13. Asynchronous JavaScript: The eventn loop
+11. Closures ✓
+12. Event delegation ✓
+13. Asynchronous JavaScript: The event loop
 14. Promises
 15. Modern JavaScript
 
