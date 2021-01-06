@@ -119,11 +119,12 @@ var UIController = (function() {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensesPerLabel: '.item__percentage'
+        expensesPerLabel: '.item__percentage',
+        dateLabel: '.budget__title--month'
     }
 
     var formatNumber = function(num, type) {
-        var numSplit, int, dec, sign
+        var numSplit, int, dec
 
         num = Math.abs(num)
         num = num.toFixed(2)
@@ -134,11 +135,12 @@ var UIController = (function() {
         dec = numSplit[1]
 
         if(int.length > 3) {
-            int.subStr(0, int.length - 3) + ',' + int.subStr(int.length - 3, int.length)
+            int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, int.length)
         }
 
-        return(type === 'exp' ? '-' : '+' + int + '.' + dec)
-    },
+        return (type === 'exp' ? '-' : '+') + int + '.' + dec
+    }
+
     return {
         getInput: function() {
             return {
@@ -212,6 +214,16 @@ var UIController = (function() {
                 else current.textContent = '----'
             })
         },
+
+        displayMonth() {
+            var now, month, months, year
+
+            now = new Date()
+            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            month = now.getMonth()
+            year = now.getFullYear()
+            document.querySelector(DOMStrings.dateLabel).textContent = months[month] + ', ' + year
+        },
         getDOMStrings: function() {
             return DOMStrings
         }
@@ -279,6 +291,7 @@ var controller = (function(budgetCtr, UICtr) {
     return {
         init: function() {
             console.log('Application started')
+            UICtr.displayMonth()
             UICtr.updateUI({
                 budget: 0,
                 totalInc: 0,
