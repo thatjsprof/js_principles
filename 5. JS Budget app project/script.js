@@ -174,9 +174,9 @@ var UIController = (function() {
 
             ({budget, totalInc, totalExp, percentage} = obj)
 
-            document.querySelector(DOMStrings.budgetLabel).textContent = budget
-            document.querySelector(DOMStrings.incomeLabel).textContent = totalInc
-            document.querySelector(DOMStrings.expensesLabel).textContent = totalExp
+            document.querySelector(DOMStrings.budgetLabel).textContent = formatNumber(budget)
+            document.querySelector(DOMStrings.incomeLabel).textContent = formatNumber(totalInc)
+            document.querySelector(DOMStrings.expensesLabel).textContent = formatNumber(totalExp)
             
             perc = document.querySelector(DOMStrings.percentageLabel)
             
