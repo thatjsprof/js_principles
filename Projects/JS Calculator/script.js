@@ -6,7 +6,9 @@ var calculatorController = (function() {
 
     return {
         compute() {
-            
+            // hold.forEach(value => {
+
+            // })
         },
         reset: function() {
             data.hold = []
@@ -38,13 +40,15 @@ var UIController = (function() {
     return {
         getInput() {},
         showOnScreen(value, hold) {
-            var screen, ref, lastValue, ret
+            var screen, ref, lastValue, ret, obj
 
             lastValue = hold[hold.length - 1]
 
-            ret = Object.values(operators).includes(lastValue)
+            obj = Object.values(operators)
 
-            if(operators[value] && !ret) {
+            ret = obj.includes(lastValue)
+
+            if(operators[value] && !ret && !hold.some(value => obj.includes(value))) {
                 if(hold.length > 0) hold.push(operators[value]);
             }
             else {
