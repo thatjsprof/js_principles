@@ -11,6 +11,7 @@ var calculatorController = (function() {
             obj = Object.values(operators)
 
             str = data.hold.join('')
+            
             operator = data.hold.filter(value => {
                 return obj.includes(value)
             })
