@@ -5,10 +5,46 @@ var calculatorController = (function() {
     }
 
     return {
-        compute() {
-            // hold.forEach(value => {
+        extract(operators) {
+            var str, nums, operator, obj, res
 
-            // })
+            obj = Object.values(operators)
+
+            str = data.hold.join('')
+            operator = data.hold.filter(value => {
+                return obj.includes(value)
+            })
+
+            nums = str.split(operator[0])
+            
+            res = this.compute(nums, operator[0])
+
+            return res
+        },
+        compute(nums, operator) {
+            var n1, n2, res
+
+            n1 = +nums[0]
+            n2 = +nums[1]
+
+            switch(operator) {
+                case '+':
+                    res = n1 + n2
+                    break
+                case '-':
+                    res = n1 - n2
+                    break
+                case '/':
+                    res = n1 / n2
+                    break
+                case '*':
+                    res = n1 * n2
+                    break
+                default:
+                    res = ''
+            }
+
+            return res
         },
         reset: function() {
             data.hold = []
@@ -33,12 +69,15 @@ var UIController = (function() {
         plus: '+',
         minus: '-',
         multiply: '*',
+        divide: '/'
     }
 
     var out = ['reset', 'equals']
 
     return {
-        getInput() {},
+        showResult(res) {
+            document.querySelector(DOM.screen).textContent = res
+        },
         showOnScreen(value, hold) {
             var screen, ref, lastValue, ret, obj
 
@@ -95,7 +134,11 @@ var controller = (function(calcCtr, UICtr){
     }
 
     var compute = function() {
-        calcCtr.compute()
+        var res
+
+        res = calcCtr.extract(operators)
+        reset()
+        UICtr.showResult(res)
     }
 
     var reset = function() {
