@@ -93,7 +93,7 @@ var UIController = (function() {
             }
             else {
                 if(operators[value] == undefined) {
-                    temp += value
+                    temp = value
                 }
                 if(temp !== '') hold.push(temp)
             }
