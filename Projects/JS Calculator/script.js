@@ -57,7 +57,6 @@ var calculatorController = (function() {
 })()
 
 var UIController = (function() {
-    var temp = ''
 
     var DOM = {
         tableBody: 'tbody',
@@ -80,7 +79,7 @@ var UIController = (function() {
             document.querySelector(DOM.screen).textContent = res
         },
         showOnScreen(value, hold) {
-            var screen, ref, lastValue, ret, obj
+            var screen, ref, lastValue, ret, obj, temp
 
             lastValue = hold[hold.length - 1]
 
@@ -99,7 +98,6 @@ var UIController = (function() {
             }
              
             ref = hold.join(' ');
-            temp = ''
 
             screen = document.querySelector(DOM.screen)
             screen.textContent = ref
@@ -162,3 +160,5 @@ var controller = (function(calcCtr, UICtr){
 })(calculatorController, UIController)
 
 controller.init()
+
+// refactor to use the (in) method to check through the object
