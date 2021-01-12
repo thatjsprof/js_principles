@@ -4,7 +4,7 @@ This repository holds the code I used to learn javascript from the complete java
 ## Course Content
 The course content goes as follows:
 1. A brief introduction to JavaScript ✓
-2. JavaScript versions: ES5, ES6 / ES2015, ES6+
+2. JavaScript versions: ES5, ES6 / ES2015, ES6+ ✓
 3. How our code is executed: JavaScript parsers and engines ✓
 4. Execution contexts and execution stacks ✓
 5. Execution contexts in detail: creations and execution phases and hoisting ✓
@@ -15,8 +15,8 @@ The course content goes as follows:
 10. Inheritance and the prototype chain
 11. Closures ✓
 12. Event delegation ✓
-13. Asynchronous JavaScript: The event loop
-14. Promises
+13. Asynchronous JavaScript: The event loop ✓
+14. Promises ✓
 15. Modern JavaScript
 
 ## Projects built
