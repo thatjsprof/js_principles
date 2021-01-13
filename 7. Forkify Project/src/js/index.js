@@ -1,6 +1,6 @@
 import Search from './models/search'
 import * as searchView from './views/searchview'
-import {elements} from './views/base'
+import { elements, renderLoader, clearLoader } from './views/base'
 
 const state = {}
 
@@ -18,6 +18,10 @@ const controlSearch = async () => {
 
         searchView.clearResults() // clear the recipes
 
+        renderLoader(elements.searchRes) // render the loader to the ui
+
+        clearLoader() // clear the loader before presenting the results to the UI
+
         searchView.renderResults(state.search.results) // render search results to the UI
     }
 }
@@ -25,9 +29,4 @@ const controlSearch = async () => {
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault()
     controlSearch()
-})
-
-
-.then(data => {
-    console.log(data)
 })
