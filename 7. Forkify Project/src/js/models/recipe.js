@@ -30,11 +30,11 @@ export default class Recipe {
     }
 
     parseIngredients() {
-        const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cup', '']
-        const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp']
+        const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'cup']
+        const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'cup']
 
         const newIngredients = this.ingredients.map(el => {
-            let ingredient = el.toLowerCase() // uniform units
+            let ingredient = el.originalString.toLowerCase() // uniform units
             unitsLong.forEach((unit, i) => {
                 ingredient = ingredient.replace(unit, unitShort[i])
             })
@@ -48,23 +48,23 @@ export default class Recipe {
 
             let obj
             if(unitIndex > -1) {
-                const arrCount = arrIng().slice(0, unitIndex)
+                const arrCount = arrIng.slice(0, unitIndex)
                 let count
                 if(arrCount.length === 1) {
                     count = eval(arrIng[0].replace('-', '+'))
                 }else {
-                    count = eval(arrIng().slice(0, unitIndex).join('+'))
+                    count = eval(arrIng.slice(0, unitIndex).join('+'))
                 }
                 obj = {
                     count: count,
                     unit: arrIng[unitIndex],
-                    ingredient: arrIng().slice(unitIndex + 1).join(' ')
+                    ingredient: arrIng.slice(unitIndex + 1).join(' ')
                 }
             }else if(parseInt(arrIng[0], 10)) {
                 obj = {
                     count: parseInt(arrIng[0], 10),
                     unit: '',
-                    ingredient = arrIng.slice(1).join(' ')
+                    ingredient: arrIng.slice(1).join(' ')
                 }
             }else if(unitIndex === -1) {
                 obj = {
