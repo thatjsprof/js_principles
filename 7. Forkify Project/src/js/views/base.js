@@ -8,7 +8,8 @@ export const elements = {
 }
 
 export const elementStrings = {
-    loader: 'loader'
+    loader: 'loader',
+    linkActive: 'results__link--active'
 }
 
 export const renderLoader = parent => {
