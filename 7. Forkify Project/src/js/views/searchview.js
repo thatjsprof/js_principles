@@ -1,4 +1,4 @@
-import {elements} from './base'
+import {elements, elementStrings} from './base'
 
 const renderRecipe = (recipe) => {
     const markup = `
@@ -41,6 +41,15 @@ export const clearInput = () => {
 export const clearResults = () => {
     elements.searchResList.innerHTML = ''
     elements.searchResPages.innerHTML = ''
+}
+
+export const highlightSelected = id => {
+    const arrSelected = Array.from(document.querySelectorAll('.results__link'))
+    arrSelected.forEach(el => {
+        el.classList.remove(elementStrings.linkActive)
+    })
+
+    document.querySelector(`a[href="#${id}"]`).classList.add(elementStrings.linkActive)
 }
 
 const createButton = (page, type) => {
