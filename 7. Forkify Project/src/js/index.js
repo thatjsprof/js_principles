@@ -51,9 +51,10 @@ const recipeSearch = async () => {
 
         // TESTING
         // window.r = state.recipe
+        if(state.search) searchView.highlightSelected(id)
 
         recipeView.clearResults()
-        
+
         try {
             await state.recipe.getRecipe() // create new recipe
 
