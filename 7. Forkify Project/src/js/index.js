@@ -1,6 +1,7 @@
 import Search from './models/search'
 import Recipe from './models/recipe'
 import * as searchView from './views/searchview'
+import * as recipeView from './views/recipeView'
 import { elements, renderLoader, clearLoader } from './views/base'
 
 const state = {}
@@ -14,13 +15,14 @@ const controlSearch = async () => {
     if(query) {
         const search = new Search(query) // create new search object
 
+        renderLoader(elements.searchRes) // render the loader to the ui
+
         state.search = search // add new search to state
 
         searchView.clearInput() // clear input to prepare UI for results
 
         searchView.clearResults() // clear the recipes
 
-        renderLoader(elements.searchRes) // render the loader to the ui
 
         try {
             await state.search.getResults() // get recipes
@@ -43,19 +45,31 @@ const recipeSearch = async () => {
     if(id) {
         const recipe = new Recipe(id)
 
+        renderLoader(elements.recipe)
+
         state.recipe = recipe
 
         // TESTING
         // window.r = state.recipe
 
+        recipeView.clearResults()
+        
         try {
             await state.recipe.getRecipe() // create new recipe
 
+            console.log(state.recipe.ingredients)
+
             state.recipe.parseIngredients() // parse ingredients
+
+            console.log(state.recipe.ingredients)
 
             state.recipe.calcTime()
 
             state.recipe.calcServings()
+
+            clearLoader()
+
+            recipeView.renderRecipe(state.recipe)
         }catch(err) {
             console.log(err)
         }
