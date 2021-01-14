@@ -8,13 +8,13 @@ const state = {}
 // SEARCH CONTROLLER
 const controlSearch = async () => {
     const query = searchView.getInput()
+    // TESTING
+    // const query = 'pizza'
 
     if(query) {
         const search = new Search(query) // create new search object
 
         state.search = search // add new search to state
-
-        await state.search.getResults() // get recipes
 
         searchView.clearInput() // clear input to prepare UI for results
 
@@ -22,26 +22,59 @@ const controlSearch = async () => {
 
         renderLoader(elements.searchRes) // render the loader to the ui
 
-        clearLoader() // clear the loader before presenting the results to the UI
+        try {
+            await state.search.getResults() // get recipes
 
-        searchView.renderResults(state.search.results) // render search results to the UI
+            clearLoader() // clear the loader before presenting the results to the UI
+
+            searchView.renderResults(state.search.results) // render search results to the UI
+        }catch(err) {
+            console.log(err)
+
+            clearLoader() // clear the loader before presenting the results to the UI
+        }
     }
 }
 
 // RECIPE CONTROLLER
 const recipeSearch = async () => {
-    const recipe = new Recipe(654959)
-    state.recipe = recipe
-    await state.recipe.getRecipe()
-    console.log(state.recipe)
+    
+    const id = window.location.hash.replace('#', '')
+    if(id) {
+        const recipe = new Recipe(id)
+
+        state.recipe = recipe
+
+        // TESTING
+        // window.r = state.recipe
+
+        try {
+            await state.recipe.getRecipe() // create new recipe
+
+            state.recipe.parseIngredients() // parse ingredients
+
+            state.recipe.calcTime()
+
+            state.recipe.calcServings()
+        }catch(err) {
+            console.log(err)
+        }
+    }
 }
 
-recipeSearch()
+['hashchange', 'load'].forEach(event => {
+    window.addEventListener(event, recipeSearch)
+})
 
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault()
     controlSearch()
 })
+
+// window.addEventListener('load', e => {
+//     e.preventDefault()
+//     controlSearch()
+// })
 
 elements.searchResPages.addEventListener('click', e => {
     const btn = e.target.closest('.btn-inline')
