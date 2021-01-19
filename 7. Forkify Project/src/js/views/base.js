@@ -4,7 +4,10 @@ export const elements = {
     searchResList: document.querySelector('.results__list'),
     searchRes: document.querySelector('.results'),
     searchResPages: document.querySelector('.results__pages'),
-    recipe: document.querySelector('.recipe')
+    recipe: document.querySelector('.recipe'),
+    list: document.querySelector('.shopping__list'),
+    likesMenu: document.querySelector('.likes__field'),
+    likesList: document.querySelector('.likes__list')
 }
 
 export const elementStrings = {
@@ -28,4 +31,16 @@ export const clearLoader = () => {
     if(loader) {
         loader.parentElement.removeChild(loader)
     }
+}
+
+export const limitTitle = (title, limit = 17) => {
+    const newTitle = []
+    if(title.length > limit) {
+        title.split(' ').reduce((acc, cur) => {
+            if(acc + cur.length <= limit) newTitle.push(cur)
+            return acc + cur.length
+        }, 0)
+        return `${newTitle.join(' ')} ...`
+    }
+    return title
 }
