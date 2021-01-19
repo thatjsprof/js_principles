@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="../dist/css/main.min.css">
+    <link type="text/css" rel="stylesheet" href="../dist//css/style.css">
+    <title>ToDo App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="dates">
+                    <p>Dates</p>
+                    <ul class="dates-list">
+                        <!-- <li>
+                            <a class="dates-list--item" href=#2031>24th of January, 2021</a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>  
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="clearfix">
+                            <div class="panel-heading--title" style="float: left;">
+                                My ToDo Items
+                            </div>
+                            <div class="panel-heading--button" style="float: right">
+                                <button class="btn btn-primary" data-target="#todo" data-toggle="modal">Add New</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="todo">
+                            <!-- <li class="todo-items">
+                                <a class="todo-items--item">
+                                    sasasas
+                                </a>
+                            </li>
+                            <li class="todo-items">
+                                <a class="todo-items--item">
+                                    sasasas
+                                </a>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="todo" tabindex="-1" role="dialog" aria-labelledby="todoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="todo">Add new ToDo</h5>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <select class="form-control" id="todo-category">
+                                <option>Category</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="title" class="form-control" id="todo-title" placeholder="Title">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="add-todo" @click="editPost">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../dist/js/jquery.js"></script>
+    <script src="../dist/js/main.min.js"></script>
+</body>
+</html>
