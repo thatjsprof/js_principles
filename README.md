@@ -23,7 +23,7 @@ The course content goes as follows:
 - A simple dice rolling game to understand the concepts of DOM manipulation
 - A simple budget app for managing incomes and expenses
 - A simple mathematical calculator - personal project
-- Forkify App - An app for getting recipe details for food
+- Forkify App - An app for getting recipe details for food. Api used is spoonacular food api available at https://www.spoonacular.com/food-api
 
 ## Resources
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript
