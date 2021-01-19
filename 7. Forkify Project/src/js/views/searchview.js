@@ -1,4 +1,4 @@
-import {elements, elementStrings} from './base'
+import {elements, elementStrings, limitTitle} from './base'
 
 const renderRecipe = (recipe) => {
     const markup = `
@@ -8,7 +8,7 @@ const renderRecipe = (recipe) => {
                     <img src="${recipe.image}" alt="${recipe.title}">
                 </figure>
                 <div class="results__data">
-                    <h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
+                    <h4 class="results__name">${limitTitle(recipe.title)}</h4>
                     <p class="results__author">David</p>
                 </div>
             </a>
@@ -16,18 +16,6 @@ const renderRecipe = (recipe) => {
     `;
 
     elements.searchResList.insertAdjacentHTML('beforeend', markup)
-}
-
-const limitRecipeTitle = (title, limit = 17) => {
-    const newTitle = []
-    if(title.length > limit) {
-        title.split(' ').reduce((acc, cur) => {
-            if(acc + cur.length <= limit) newTitle.push(cur)
-            return acc + cur.length
-        }, 0)
-        return `${newTitle.join(' ')} ...`
-    }
-    return title
 }
 
 export const getInput = () => {
@@ -49,7 +37,7 @@ export const highlightSelected = id => {
         el.classList.remove(elementStrings.linkActive)
     })
 
-    document.querySelector(`a[href="#${id}"]`).classList.add(elementStrings.linkActive)
+    document.querySelector(`.results__link[href="#${id}"]`).classList.add(elementStrings.linkActive)
 }
 
 const createButton = (page, type) => {
