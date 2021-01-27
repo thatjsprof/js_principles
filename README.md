@@ -1,5 +1,5 @@
 # learning_js
-This repository holds the code I used to learn javascript from the complete javascript course by Jonas Schmedtmann
+This repository holds the code I used to solidify my javascript from the complete javascript course by Jonas Schmedtmann
 
 ## Course Content
 The course content goes as follows:
