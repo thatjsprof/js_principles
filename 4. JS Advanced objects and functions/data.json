@@ -1,0 +1,10 @@
+{
+    "name": "david",
+    "age": 22,
+    "obj": {
+        "arr": [
+            "string", "boolean", "null"
+        ]
+    }
+    
+}
