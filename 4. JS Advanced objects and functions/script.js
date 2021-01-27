@@ -1,4 +1,4 @@
-'use strict'
+// 'use strict'
 
 // Advanced JavaScript objects and functions (looked into js objects and functions in greater detail)
 /*
@@ -214,3 +214,122 @@
 // var john = new Person1('john', 'teacher', 1998, 'maths')
 
 // console.log(john.returnAge())
+
+// const user1 = {
+//     name: 'david',
+//     func: function() {
+//         return this.name
+//     }
+// }
+
+// const user2 = {
+//     name: 'mark',
+//     func: function() {
+//         return this.name
+//     }
+// }
+
+// const greeting = function(time) {
+//     return `${time} ${this.name}`
+// }
+// const greet = greeting.bind(user2, 'Good morning')
+// console.log(greet())
+
+// const objFirst = {
+//     save: function() {
+//         return `${this.name} and ${this.age}`
+//     }
+// }
+
+// const obj = {
+//     name: 'david',
+//     age: 22
+// }
+
+// Object.setPrototypeOf(objFirst, obj)
+
+// console.log(objFirst.save())
+
+// const obj = {
+//     a: 1
+// }
+
+// const obj1 = {
+//     b: 2
+// }
+
+// const obj2 = {
+//     c: 3
+// }
+
+// Object.assign(obj, obj1, obj2)
+
+// console.log(obj)
+// Object.defineProperty(obj, 'start', {
+//     writable: false
+// })
+
+// console.log(obj.start)
+
+// Object.freeze(obj)
+
+// obj.name = 'holla'
+// delete obj.name
+
+// Three different methods to make an object immutable
+// 1. using Object.defineProperty with writable: false
+// 2. using Object.seal
+// 3. using Object.freeze
+
+// Learnt about method chaining
+
+// const student = {
+//     name: 'david',
+//     score: [],
+//     total: 0,
+//     average: 0,
+//     addScore(val) {
+//         this.score.push(val)
+//         return this
+//     },
+//     doTotal: function() {
+//         this.total = this.score.reduce((prev, cur) => {
+//             return prev + cur
+//         }, 0)
+//         return this
+//     },
+//     getAverage() {
+//         this.average = this.total / 3
+//     }
+// }
+
+// student.addScore(100).addScore(100).addScore(200).doTotal().getAverage()
+
+// console.log(student)
+
+// closures
+
+// (function() {
+//     var count = 0
+//     let quotes = this.document.querySelectorAll('li')
+//     window.addEventListener('keyup', (e) => {
+//         switch(e.keyCode) {
+//             case 40:
+//                 if(count < quotes.length) {
+//                     quotes[count].style.background = '#ddd'
+//                     count++
+//                 }
+//                 break;
+//         }
+//     })
+// }())
+
+var MYAPP = MYAPP || {}
+
+(function(namespace) {
+    namespace.greet = function() {
+        return 'holla'
+    }
+})(MYAPP)
+
+console.log(MYAPP.greet())
