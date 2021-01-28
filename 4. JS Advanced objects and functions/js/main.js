@@ -1,16 +1,16 @@
-var MAINAPP = (function(m, str, dom, gen) {
-        // var result;
+let MAINAPP = (function(m, str, dom, gen) {
+        // let result;
 
         // dom.eventList(dom.$('#btn-submit'), 'click', function(e) {
         //     hideFeedback()
         //     checkAnswer(dom.$('#input_field')[0].value)
         // })
 
-        // var checkAnswer = function(input) {
-        //     var arr = str.breakString(dom.attribute(dom.$('#question'), 'answer'), ',')
+        // let checkAnswer = function(input) {
+        //     let arr = str.breakString(dom.attribute(dom.$('#question'), 'answer'), ',')
         //     console.log(input)
         //     if(input !== '') {
-        //         var correct = arr.every(value => {
+        //         let correct = arr.every(value => {
         //             return (input.indexOf(value) > -1)
         //         })
         //         result = (correct) ? 'correct' : 'wrong'
@@ -20,22 +20,27 @@ var MAINAPP = (function(m, str, dom, gen) {
         //     }
         // }
 
-        // var displayFeedback = function(result) {
-        //     var feedback = dom.$('.feedback-' + result)
+        // let displayFeedback = function(result) {
+        //     let feedback = dom.$('.feedback-' + result)
         //     dom.addClass(feedback, 'visible')
         // }
 
-        // var hideFeedback = function() {
-        //     var feedback = dom.$('.feedback-wrong')
-        //     var feedback_none = dom.$('.feedback-no-answer')
+        // let hideFeedback = function() {
+        //     let feedback = dom.$('.feedback-wrong')
+        //     let feedback_none = dom.$('.feedback-no-answer')
         //     dom.removeClass(feedback, 'visible')
         //     dom.removeClass(feedback_none, 'visible')
         // }
 
     let jsonObj = {},
-        navQuest = 0
+        globalQuest,
+        navigationProto,
+        prevBtn,
+        nextBtn,
+        currentQuestion = 0,
+        score
 
-    var loadJSON = function(path) {
+    let loadJSON = function(path) {
 
         const xobj = new XMLHttpRequest()
         xobj.overrideMimeType('application/json')
@@ -49,7 +54,7 @@ var MAINAPP = (function(m, str, dom, gen) {
         xobj.send(null)
     }
 
-    var Questions = function(obj) {
+    let Questions = function(obj) {
         this.type = obj.type
         this.id = obj.id
         this.answer = ''
@@ -61,14 +66,16 @@ var MAINAPP = (function(m, str, dom, gen) {
         this.result = "no-answer"
         this.studentResp = ""
         this.correct = undefined
+        this.disabled = false
 
-        this.questDiv = obj.type === 'fill-in' ? 'fill-in' : obj.type
+        this.questDiv = obj.type === 'fill-in' ? 'fill-in' : 'multi-choice'
 
         htmlDiv = dom.$(`#${this.questDiv}`)[0]
-        if(this.htmlDiv !== null) {
+        if(htmlDiv !== null) {
             this.questionField = htmlDiv.querySelector(".question-text")
             this.noAnswerFeed = htmlDiv.querySelector(".feedback-no-answer")
             this.correctFeed = htmlDiv.querySelector(".feedback-correct")
+            this.button = htmlDiv.querySelector(".btn-submit")
             this.inccorrectFeed = htmlDiv.querySelector(".feedback-wrong")
         }
         this.htmlDiv = htmlDiv
@@ -83,10 +90,27 @@ var MAINAPP = (function(m, str, dom, gen) {
     }
 
     Questions.prototype.populateQuestion = function() {
-        this.questionField.innerHTML = this.questionText
-        this.noAnswerFeed.innerHTML = `<p><span>X </span>${this.feedback.noAnswer}</p>`
-        this.correctFeed.innerHTML = `<p><span>&#10003 </span>${this.feedback.correctAnswer}</p>`
-        this.inccorrectFeed.innerHTML = `<p><span>X </span>${this.feedback.wrongAnswer}</p>`
+        window.quest = this
+        if(this.htmlDiv) {
+            this.questionField.innerHTML = this.questionText
+            this.noAnswerFeed.innerHTML = `<p class="text-danger"><span>X </span>${this.feedback.noAnswer}</p>`
+            this.correctFeed.innerHTML = `<p><span>&#10003 </span>${this.feedback.correctAnswer}</p>`
+            this.inccorrectFeed.innerHTML = `<p class="text-danger"><span>X </span>${this.feedback.wrongAnswer}</p>`
+            if(this.disabled) this.button.setAttribute('disabled', 'disabled')
+            else this.button.removeAttribute('disabled')
+            if(this.type !== 'fill-in') {
+                let options = this.htmlDiv.querySelectorAll('label')
+                options.forEach(option => {
+                    dom.addClass([option], 'hidden')
+                })
+                for(let i = 0; i < this.distractorText.length; i++) {
+                    let input = `<input type="radio" name="q4" id="q4_${i}"/>`
+                    options[i].innerHTML = input + this.distractorText[i]
+                    dom.removeClass([options[i]], 'hidden')
+                }
+            }
+            else this.htmlDiv.querySelector("#input_field").innerText = this.answer
+        }
     }
 
     Questions.prototype.showQuestion = function() {
@@ -95,7 +119,7 @@ var MAINAPP = (function(m, str, dom, gen) {
 
     Questions.prototype.getAnswer = function(field) {
         let answer = this.htmlDiv.querySelector(field).value
-        if(answer !== '') this.answer = answer.split(',')
+        if(answer !== '') this.answer = str.breakString(answer, ',')
         else {
             this.answer = ''
             this.correct = undefined
@@ -103,8 +127,15 @@ var MAINAPP = (function(m, str, dom, gen) {
     }
 
     Questions.prototype.displayFeedback = function() {
-        var feedback = this.result == 'correct' ? this.correctField : this.result == 'no-answer' ? this.noAnswerFeed : this.inccorrectFeed
-        console.log(feedback)
+        let feedback = this.result == 'correct' ? this.correctFeed : this.result == 'no-answer' ? this.noAnswerFeed : this.inccorrectFeed
+        if(this.result !== 'no-answer' && !this.disabled) {
+            this.button.setAttribute('disabled', 'disabled')
+            this.disabled = true
+        }
+        if(this.result === 'correct') {
+            var outputScore = score()
+            dom.$('.score').innerText = outputScore
+        }
         dom.removeClass([feedback], 'hidden')
     }
 
@@ -116,45 +147,128 @@ var MAINAPP = (function(m, str, dom, gen) {
         switch(this.questDiv) {
             case 'fill-in':
                 this.getAnswer("#input_field")
-                let distractorArray = this.correctResp.split(',')
+                let distractorArray = str.breakString(this.correctResp, ',')
+                console.log(distractorArray)
                 if(this.answer !== '') {
                     this.correct = distractorArray.every(distractor => {
                         return this.answer.indexOf(distractor) > -1
                     })
                 }
                 break;
-            case 'multi-choice':
+            case 'multi-choice' || 'true-false':
+                for(let i = 0; i < this.distractorText.length; i++) {
+
+                }
         }
         this.result = (this.correct) ? 'correct' : this.correct == undefined ? 'no-answer' : 'wrong'
         this.hideFeedback()
         this.displayFeedback()
     }
 
-    var parseData = function(cObj) {
+    let scoreTracker = function() {
+        let score = 0
+        return incScore = () => {
+            return score++
+        }
+    }
+
+    let parseData = function(cObj) {
         questionsArray = cObj.questions
 
-        dom.setHtml(dom.$('.btn-submit'), `<span>${cObj.buttonText}</span>`)
+        dom.setHtml([dom.$('.btn-submit')], `<span>${cObj.buttonText}</span>`)
 
-        handleQuestion(questionsArray)
+        setGlobal(questionsArray)
     }
 
-    var handleQuestion = (questionsArray) => {
-        let quest = new Questions(questionsArray[navQuest])
+    let setGlobal = (questionsArray) => {
+        let quest = []
 
-        window.quest = quest // TESTING
+        for(let i = 0; i < questionsArray.length; i++) {
+            quest.push(new Questions(questionsArray[i]))
+        }
 
-        quest.showQuestion()
-        dom.eventList([quest.htmlDiv.querySelector('.btn-submit')], 'click', function() {
-            console.log('checking')
-            quest.checkAnswer()
+        globalQuest = quest
+        handleQuestion().setQuestion()
+
+        navigationProto = {
+            questionsArray: globalQuest,
+            totalQuestions: globalQuest.length,
+            hideQuestion: function() {
+                let curQuestion = this.questionsArray[currentQuestion]
+                curQuestion.hideQuestion()
+            },
+            showQuestion: function() {
+                let newQuestion = this.questionsArray[currentQuestion]
+                newQuestion.hideFeedback()
+                newQuestion.populateQuestion()
+                newQuestion.displayQuestion()
+            }
+        }
+    
+        prevBtn = Object.create(navigationProto)
+        prevBtn.goPrev = function(e) {
+                this.hideQuestion()
+                currentQuestion = currentQuestion - 1
+                this.showQuestion()
+
+                checkStatus()
+        }
+    
+        nextBtn = Object.create(navigationProto)
+        nextBtn.goNext = function(e) {
+                this.hideQuestion()
+                currentQuestion = currentQuestion + 1
+                this.showQuestion()
+                
+                checkStatus()
+        }
+
+        dom.eventList(dom.$('.pull-right'), 'click', function() {
+            if(globalQuest[currentQuestion].result == 'no-answer' || globalQuest[currentQuestion].result == 'wrong') nextBtn.goNext()
         })
+
+        dom.eventList(dom.$('.pull-left'), 'click', function() {
+            prevBtn.goPrev()
+        })
+
+        console.log(nextBtn.goNext)
+        score = scoreTracker()
     }
 
-    var navigation = function(type) {
-        type === 'next' ? navQuest++ : navQuest--
+    function checkStatus() {
+        if(currentQuestion === 0) {
+            dom.addClass(dom.$('.pull-left'), 'hidden')
+        }else {
+            dom.removeClass(dom.$('.pull-left'), 'hidden')
+        }
+
+        if(globalQuest.length - 1 === currentQuestion) {
+            dom.addClass(dom.$('.pull-right'), 'hidden')
+        }else {
+            dom.removeClass(dom.$('.pull-right'), 'hidden')
+        }
+    } 
+
+    let handleQuestion = () => {
+
+        if(this.htmlDiv) dom.removeClass([this.htmlDiv], 'hidden-question')
+
+        return {
+            setQuestion() {
+                let quest = globalQuest[currentQuestion]
+                quest.showQuestion()
+                checkStatus()
+                if(quest.htmlDiv) {
+                    dom.eventList([quest.htmlDiv.querySelector('.btn-submit')], 'click', function() {
+                        console.log('checking')
+                        quest.checkAnswer()
+                    })
+                }
+            }
+        }
     }
 
-    var initFunc = () => {
+    let initFunc = () => {
         loadJSON("JSON/content.json")
     }
 
@@ -162,4 +276,4 @@ var MAINAPP = (function(m, str, dom, gen) {
         initFunc()
     })
 
-})(MAINAPP || {}, STR.string, UTIL.domm, GEN.gen)
+})({}, STR.string, UTIL.domm, GEN.gen)
