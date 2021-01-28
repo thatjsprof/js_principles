@@ -5,23 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/main.min.css" type="text/css" rel="stylesheet">
     <link href="css/style.css" type="text/css" rel="stylesheet">
-    <title>Questions App</title>
+    <title>Quiz App</title>
     <style>
-        .hidden-quesion {
+        .hidden-question {
             display: none;
+        }
+        .btn-submit {
+            margin-top: 20px; 
+            margin-bottom: 20px;
+        }
+        .navigation {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Quiz App</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+            </ul>
+            <ul class="nav navbar-right">
+                <li><a href=""></a>Score: <span class="score">0</span></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="question hidden-question" id="fill-in">
                     <h2 class="question-text"></h2>
-                    <textarea id="input_field" class="form-control mb-5"></textarea>
+                    <textarea id="input_field" class="form-control"></textarea>
                     <button class="btn btn-primary btn-submit">Submit</button>
-                    
-                    <br><br>
                     
                     <p class="hidden feedback feedback-correct"></p>
                     <p class="hidden feedback feedback-wrong"></p>
@@ -31,25 +49,33 @@
                 <div class="question hidden-question" id="multi-choice">
                     <h2 class="question-text"></h2>
                     
-                    <input type="radio" name="q4" id="q4_1"/>
-                    <label for="q4_1" id="q4_1_label"></label>
+                    <label for="q4_1" id="q4_1_label" class="hidden radio-inline">
+                        <input type="radio" name="q4" id="q4_1"/>
+                    </label>
                     
-                    <input type="radio" name="q4" id="q4_2"/>
-                    <label for="q4_2" id="q4_2_label"></label>
+                    <label for="q4_2" id="q4_2_label" class="hidden radio-inline">
+                        <input type="radio" name="q4" id="q4_2"/>
+                    </label>
             
-                    <input type="radio" name="q4" id="q4_3"/>
-                    <label for="q4_3" id="q4_3_label"></label>
+                    <label for="q4_3" id="q4_3_label" class="hidden radio-inline">
+                        <input type="radio" name="q4" id="q4_3"/>
+                    </label>
                     
-                    <input type="radio" name="q4" id="q4_4"/>
-                    <label for="q4_4" id="q4_4_label"></label>
+                    <label for="q4_4" id="q4_4_label" class="hidden radio-inline">
+                        <input type="radio" name="q4" id="q4_4"/>
+                    </label>
+                    <br>
                     
                     <button class="btn btn-primary btn-submit">Submit</button>
                     
-                    <br><br>
+                    <p class="hidden feedback feedback-correct"></p>
+                    <p class="hidden feedback feedback-wrong"></p>
+                    <p class="hidden feedback feedback-no-answer"></p>
+                </div>
 
-                    <p class="feedback-correct"></p>
-                    <p class="feedback-wrong"></p>
-                    <p class="feedback-no-answer"></p>
+                <div class="navigation">
+                    <button class="btn btn-default pull-left">Prev</button>
+                    <button class="btn btn-success pull-right">Next</button>
                 </div>
             </div>
         </div>
