@@ -52,6 +52,12 @@ var UTIL = (function(u, str) {
         }
     }
 
+    var nodesList = function(list, callback) {
+        for(let i = 0; i < list.length, i++;) {
+            callback(list[i], i)
+        }
+    }
+
     // DOM functionalities
     var addClass = function(de, cls) {
         for(i = 0; i < de.length; i++) {
@@ -100,6 +106,7 @@ var UTIL = (function(u, str) {
     domm.removeClass = removeClass
     domm.attribute = attribute
     domm.setHtml = setHtml
+    domm.nodesList = nodesList
 
     return u
 
