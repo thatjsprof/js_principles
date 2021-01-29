@@ -5,7 +5,6 @@ var UTIL = (function(u, str) {
     var doc = document
 
     $ = function(DomElement) {
-        console.log(typeof DomElement)
         if(!singleSelector(DomElement)) {
             try {
                 return doc.querySelectorAll(DomElement)
@@ -13,7 +12,6 @@ var UTIL = (function(u, str) {
                 console.log(err)
             }
         }else {
-            console.log(DomElement.substring(1, DomElement.length))
             if(DomElement.indexOf('#') === 0) {
                 try{
                     return [doc.getElementById(DomElement.substring(1, DomElement.length))]
@@ -34,7 +32,6 @@ var UTIL = (function(u, str) {
 
     var singleSelector = function(elem) {
         let arr = elem.split(' ')
-        console.log(arr)
         if(arr.length === 1 && str.numStr(elem, '#') <= 1 && str.numStr(elem, '.') <= 1) {
             return true
         }
@@ -43,7 +40,6 @@ var UTIL = (function(u, str) {
 
     var eventList = function(de, event, funct) {
         try {
-            console.log(de)
             for(i = 0; i < de.length; i++) {
                 de[i].addEventListener(event, funct)
             }
