@@ -19,11 +19,11 @@
             "type": "multi-choice",
             "questionText": "Which keyword is used to declare block-scoped variables?",
             "distractors": ["var", "const", "let", "no declaration keyword"],
-            "correctResp": "let",
+            "correctResp": "let, const",
             "feedback": {
                 "noAnswer": "Please provide an answer first.",
                 "correctAnswer": "Well done! That is the correct response.",
-                "wrongAnswer": "Sorry, that is inccorrect. let allows you to declare block-scoped variables."
+                "wrongAnswer": "Sorry, that is inccorrect. let and const allow you to declare block-scoped variables."
             },
             "weight": 1
         },
