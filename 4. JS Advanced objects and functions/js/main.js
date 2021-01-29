@@ -67,6 +67,7 @@ let MAINAPP = (function(m, str, dom, gen) {
         this.studentResp = ""
         this.correct = undefined
         this.disabled = false
+        this.checked = []
 
         this.questDiv = obj.type === 'fill-in' ? 'fill-in' : 'multi-choice'
 
@@ -104,12 +105,21 @@ let MAINAPP = (function(m, str, dom, gen) {
                     dom.addClass([option], 'hidden')
                 })
                 for(let i = 0; i < this.distractorText.length; i++) {
-                    let input = `<input type="radio" name="q4" id="q4_${i}"/>`
-                    options[i].innerHTML = input + this.distractorText[i]
+                    let input = `<input type="checkbox" name="q4_${i + 1}" id="q4_${i + 1}" ${(this.checked.includes(this.distractorText[i])) ? 'checked="checked"' : ''}/>`
+                    options[i].innerHTML = input +  ' ' + this.distractorText[i]
                     dom.removeClass([options[i]], 'hidden')
                 }
+                addEventChecked()
+            }else {
+                // let answer
+                // answer = Array.isArray(this.answer) ? 
+                //     (
+                //         this.answer.join(',')
+                //     )
+                //     : 
+                //     this.answer
+                // dom.$("textarea")[0].innerHTML = answer
             }
-            else this.htmlDiv.querySelector("#input_field").innerText = this.answer
         }
     }
 
@@ -133,8 +143,7 @@ let MAINAPP = (function(m, str, dom, gen) {
             this.disabled = true
         }
         if(this.result === 'correct') {
-            var outputScore = score()
-            dom.$('.score').innerText = outputScore
+            dom.$('.score')[0].innerText = score(this.weight)
         }
         dom.removeClass([feedback], 'hidden')
     }
@@ -144,11 +153,11 @@ let MAINAPP = (function(m, str, dom, gen) {
     }
 
     Questions.prototype.checkAnswer = function() {
+        console.log(this)
+        let distractorArray = str.breakString(this.correctResp, ',')
         switch(this.questDiv) {
             case 'fill-in':
                 this.getAnswer("#input_field")
-                let distractorArray = str.breakString(this.correctResp, ',')
-                console.log(distractorArray)
                 if(this.answer !== '') {
                     this.correct = distractorArray.every(distractor => {
                         return this.answer.indexOf(distractor) > -1
@@ -156,10 +165,21 @@ let MAINAPP = (function(m, str, dom, gen) {
                 }
                 break;
             case 'multi-choice' || 'true-false':
-                for(let i = 0; i < this.distractorText.length; i++) {
-
-                }
+                let options = this.htmlDiv.querySelectorAll('label:not(.hidden)')
+                options.forEach((option, index) => {
+                    let input = option.querySelector('input')
+                    if(input.checked) {
+                        this.checked.push(this.distractorText[index])
+                    }
+                })
+                this.correct = this.checked.every(distractor => {
+                    return distractorArray.indexOf(distractor) > -1
+                })
+            default: 
+                // what is going to be the default bayi ehn?
+                // well to hell with you. You can put whatever the fuck you want
         }
+
         this.result = (this.correct) ? 'correct' : this.correct == undefined ? 'no-answer' : 'wrong'
         this.hideFeedback()
         this.displayFeedback()
@@ -167,8 +187,9 @@ let MAINAPP = (function(m, str, dom, gen) {
 
     let scoreTracker = function() {
         let score = 0
-        return incScore = () => {
-            return score++
+        return incScore = (value) => {
+            score = score + value
+            return score
         }
     }
 
@@ -223,16 +244,25 @@ let MAINAPP = (function(m, str, dom, gen) {
                 checkStatus()
         }
 
-        dom.eventList(dom.$('.pull-right'), 'click', function() {
-            if(globalQuest[currentQuestion].result == 'no-answer' || globalQuest[currentQuestion].result == 'wrong') nextBtn.goNext()
+        dom.eventList(dom.$('.pull-right'), 'click', function () {
+            if(globalQuest[currentQuestion].result !== 'no-answer' || globalQuest[currentQuestion].result == 'wrong') nextBtn.goNext()
         })
 
-        dom.eventList(dom.$('.pull-left'), 'click', function() {
+        dom.eventList(dom.$('.pull-left'), 'click', function () {
             prevBtn.goPrev()
         })
 
-        console.log(nextBtn.goNext)
         score = scoreTracker()
+    }
+
+    function addEventChecked() {
+        let inputs = document.querySelectorAll('input')
+        Array.from(inputs).forEach(input => {
+            dom.eventList([input], 'change', function () {
+                input.checked = true
+                console.log('checked')
+            })
+        })
     }
 
     function checkStatus() {
@@ -255,15 +285,14 @@ let MAINAPP = (function(m, str, dom, gen) {
 
         return {
             setQuestion() {
-                let quest = globalQuest[currentQuestion]
-                quest.showQuestion()
+                globalQuest[currentQuestion].showQuestion()
                 checkStatus()
-                if(quest.htmlDiv) {
-                    dom.eventList([quest.htmlDiv.querySelector('.btn-submit')], 'click', function() {
+                Array.from(document.querySelectorAll('.btn-submit')).forEach(button => {
+                    dom.eventList([button], 'click', function() {
                         console.log('checking')
-                        quest.checkAnswer()
+                        globalQuest[currentQuestion].checkAnswer()
                     })
-                }
+                })
             }
         }
     }
