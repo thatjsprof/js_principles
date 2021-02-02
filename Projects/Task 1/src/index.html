@@ -3,23 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Numbers generator (Prime numbers)</title>
-    <link href="/dist/css/main.min.css" rel="stylesheet" type="text/css">
-    <link href="/dist/css/style.css" rel="stylesheet" type="text/css">
+    <title>ToDo App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="container">
+        <form class="mb-5 mt-5">
+            <div class="form-row align-items-center">
+                <div class="col-md-11 col-auto">
+                    <input class="form-control" id="todo-input">
+                </div>
+                <div class="col-md-1 col-auto">
+                    <button class="btn btn-primary btn-block btn-submit">Add</button>
+                </div>
+            </div>
+            <p class="text-danger"></p>
+        </form>
         <div class="row">
-            <div class="col-md-12">
-                <div class="numbers">
-                    <ul class="numbers-box">
-                        <!-- <li class="numbers-box--item"></li> -->
-                    </ul>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Your ToDos</h4>
+                        <ul class="activeTodo list-group">
+                            <!-- <li class="list-group-item d-flex align-items-center"></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Recently Deleted</h4>
+                        <ul class="inactiveTodo list-group">
+                            <!-- <li class="list-group-item d-flex align-items-center"></li> -->
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <script> src="/dist/js/jquery.js"</script>
-    <script> src="/dist/js/main.min.js"</script>
+    <script> src="/js/jquery.js"</script>
+    <script> src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"</script>
 </body>
 </html>
