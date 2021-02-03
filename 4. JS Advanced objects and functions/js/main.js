@@ -259,7 +259,7 @@ let MAINAPP = (function(m, str, dom, gen) {
         let inputs = document.querySelectorAll('input')
         Array.from(inputs).forEach(input => {
             dom.eventList([input], 'change', function () {
-                input.checked = true
+                console.log(input.checked)
                 console.log('checked')
             })
         })
