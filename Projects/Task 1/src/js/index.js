@@ -29,7 +29,7 @@ const deleteToDo = (e) => {
         state.todo.removeToDo(id)
         handle()
     }
-    if (id && e.target.classList.contains('complete-btn')) {
+    if (id && e.target.matches('.complete-btn, .complete-btn *')) {
         state.todo.toggleCompleted(id)
         handle()
     }
