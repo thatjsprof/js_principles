@@ -29,9 +29,22 @@ export default class {
         this.persistDataRemovedTodo()
     }
 
+    restoreTodo(id) {
+        const index = this.deletedTodos.findIndex((todo) => todo.todo.id === id)
+        const todo = this.deletedTodos.splice(index, 1)[0]
+        this.todos.push(todo.todo)
+        this.persistDataTodo()
+        this.persistDataRemovedTodo()
+    }
+
+    deleteAll() {
+        this.deletedTodos = []
+        this.persistDataRemovedTodo()
+    }
+
     toggleCompleted(id) {
-        let todo = this.todos.find((todo) => todo.id === id).completed
-        todo = todo ? false : true
+        let todo = this.todos.find((todo) => todo.id === id)
+        todo.completed = (todo.completed) ? false : true
         this.persistDataTodo()
     }
 
