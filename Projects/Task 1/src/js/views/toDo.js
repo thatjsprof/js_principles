@@ -1,4 +1,4 @@
-import { elements } from './base'
+import { elements, clearLists } from './base'
 
 export const getInput = () => {
     const todo = elements.input.value
@@ -20,19 +20,17 @@ export const clearError = () => {
 export const renderToDo = (todo) => {
     const markup = `
         <li class="list-group-item d-flex align-items-center" data-id="${todo.id}">
-            ${todo.desc}
+            ${todo.completed ? `<del>${todo.desc}</del>` : `${todo.desc}`}
             <span class="ml-auto">
-                <button class="btn btn-outline-primary btn-small">^</button>
-                <button class="btn btn-outline-danger btn-small">^</button>
+                <button class="btn btn-outline-primary btn-small complete-btn"><i class="fa fa-check"></i></button>
+                <button class="btn btn-outline-danger btn-small delete-btn"><i class="fa fa-trash"></i></button>
             </span>
         </li>
     `
     elements.todoList.insertAdjacentHTML('beforeend', markup)
 }
 
-export const removeToDo = (id) => {
-    const el = elements.todoList.querySelector(`li[data-id="${id}"`)
-    el.parentNode.removeChild(el)
+export const clear = () => {
     elements.todoList.innerHTML = ''
     elements.inactiveTodo.innerHTML = ''
 }
