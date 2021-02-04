@@ -10,7 +10,7 @@ export default class {
             id: `#${Math.round(Math.random() * 100000)}`,
             completed: false
         }
-        this.todos.push(newToDo)
+        this.todos.unshift(newToDo)
         this.persistDataTodo()
         return newToDo
     }
@@ -40,6 +40,11 @@ export default class {
     deleteAll() {
         this.deletedTodos = []
         this.persistDataRemovedTodo()
+    }
+
+    clearAll() {
+        this.todos = []
+        this.persistDataTodo()
     }
 
     toggleCompleted(id) {
