@@ -6,6 +6,21 @@
     <title>ToDo App</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <style>
+        .todos__btn--next {
+            float: right;
+        }
+
+        .todos__btn--prev {
+            float: left;
+        }
+
+        .clearfix {
+            clear: both;
+            display: table;
+            content: '';
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -30,17 +45,20 @@
                         <ul class="activeTodo list-group">
                             <!-- <li class="list-group-item d-flex align-items-center"></li> -->
                         </ul>
+                        <button class="btn btn-danger clear-all mt-3">Clear All <i class="fa fa-exclamation-triangle"></i></button>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mt-3">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body del-todos">
                         <h4 class="card-title">Recently Deleted</h4>
                         <p class="text-center mt-4 mb-3 del-todo d-none">No deleted todos</p>
                         <ul class="inactiveTodo list-group">
                             <!-- <li class="list-group-item d-flex align-items-center"></li> -->
                         </ul>
+                        <div class="buttons"></div>
+                        <span class="clearfix"></span>
                         <button class="btn btn-danger btn-block delete-all mt-3">Delete All <i class="fa fa-exclamation-triangle"></i></button>
                     </div>
                 </div>
