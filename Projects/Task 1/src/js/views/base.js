@@ -7,4 +7,7 @@ export const elements = {
     actTodo: document.querySelector('.act-todo'),
     delTodo: document.querySelector('.del-todo'),
     deleteAll: document.querySelector('.delete-all'),
+    clearAll: document.querySelector('.clear-all'),
+    buttons: document.querySelector('.buttons'),
+    deletedTodoList: document.querySelector('.del-todos'),
 }
