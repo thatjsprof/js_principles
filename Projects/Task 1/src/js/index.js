@@ -14,9 +14,9 @@ const controlToDo = (e) => {
     } 
     const input = t.getInput()
     if (input !== '') {
-        const newToDo = state.todo.addTodo(input)
+        state.todo.addTodo(input)
+        handle()
         t.clearInput()
-        t.renderToDo(newToDo)
         checkStatus()
     } else {
         t.showError()
@@ -35,11 +35,21 @@ const deleteToDo = (e) => {
     }
 }
 
-const restoreTodo = (e) => {
+const handleClick = (e) => {
     const id = e.target.parentNode.dataset.id
     if (id) {
         state.todo.restoreTodo(id)
         handle()
+    }
+}
+
+const renderButtons = (e) => {
+    const btn = e.target.closest('.btn-outline-info')
+    if (btn) {
+        const page = parseInt(btn.dataset.goto, 10)
+        t.clearInactive()
+        t.clearButtons()
+        t.renderDeletedTodo(state.todo.deletedTodos, page)
     }
 }
 
@@ -48,18 +58,25 @@ const deleteAll = () => {
     handle()
 }
 
+const clearAll = () => {
+    state.todo.clearAll()
+    handle()
+}
+
 const readStorage = () => {
     state.todo.readStorage()
     state.todo.todos.forEach((todo) => t.renderToDo(todo))
-    state.todo.deletedTodos.forEach((todo) => t.showRecentlyDeleted(todo))
+    t.renderDeletedTodo(state.todo.deletedTodos)
     checkStatus()
 }
 
 const checkStatus = () => {
     if (state.todo.todos.length === 0) {
         elements.actTodo.classList.remove('d-none')
+        elements.clearAll.classList.add('d-none')
     } else {
         elements.actTodo.classList.add('d-none')
+        elements.clearAll.classList.remove('d-none')
     }
     if (state.todo.deletedTodos.length === 0) {
         elements.delTodo.classList.remove('d-none')
@@ -71,7 +88,9 @@ const checkStatus = () => {
 }
 
 const handle = () => {
-    t.clear()
+    t.clearTodo()
+    t.clearInactive()
+    t.clearButtons()
     readStorage()
 }
 
@@ -86,7 +105,11 @@ const handle = () => {
 
     elements.deleteAll.addEventListener('click', deleteAll)
 
-    elements.inactiveTodo.addEventListener('click', restoreTodo)
+    elements.clearAll.addEventListener('click', clearAll)
+
+    elements.inactiveTodo.addEventListener('click', handleClick)
+
+    elements.deletedTodoList.addEventListener('click', renderButtons)
 
     window.addEventListener('load', e => {
         state.todo = new ToDo()
