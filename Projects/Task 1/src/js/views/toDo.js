@@ -22,7 +22,7 @@ export const renderToDo = (todo) => {
         <li class="list-group-item d-flex align-items-center" data-id="${todo.id}">
             ${todo.completed ? `<del>${todo.desc}</del>` : `${todo.desc}`}
             <span class="ml-auto">
-                <button class="btn btn-outline-primary btn-small complete-btn"><i class="fa fa-check"></i></button>
+                <button class="btn btn-outline-primary btn-small complete-btn"><span class="fa fa-check"></span></button>
                 <button class="btn btn-outline-danger btn-small delete-btn"><i class="fa fa-trash"></i></button>
             </span>
         </li>

@@ -24,8 +24,8 @@ const controlToDo = (e) => {
 }
 
 const deleteToDo = (e) => {
-    const id = e.target.parentNode.parentNode.dataset.id
-    if (id && e.target.classList.contains('delete-btn')) {
+    const id = e.target.closest('.list-group-item').dataset.id
+    if (id && e.target.matches('.delete-btn, .delete-btn *')) {
         state.todo.removeToDo(id)
         handle()
     }
