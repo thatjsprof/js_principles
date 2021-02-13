@@ -22,7 +22,7 @@ The course content goes as follows:
 ## Projects built
 - A simple dice rolling game to understand the concepts of DOM manipulation
 - A simple budget app for managing incomes and expenses
-- A Todo app - personal project
+- A Todo app - personal project available at https://thatjsprof.github.io/Todo_app/
 - Forkify App - An app for getting recipe details for food. Api used is spoonacular food api available at https://www.spoonacular.com/food-api
 
 ## Resources
