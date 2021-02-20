@@ -6,9 +6,10 @@
 
 :root {
     --grid-width: 1200px;
-    --header-color: #af5c5c;
-    --sidebar-color-light: rgb(194, 115, 115);
-    --sidebar-color-dark: rgb(182, 106, 106);
+    --header-color: #535285;
+    --sidebar-color-light: rgb(95, 112, 148);
+    --sidebar-color-dark: rgb(90, 85, 138);
+    --button-color: rgb(211, 164, 164);
     --color-white: #fff;
     --color-black: #000;
     --color-grey: #ddd;
@@ -64,9 +65,10 @@ body.sidenav {
 }
 
 .sidebar {
-    position: fixed;
+    position: absolute;
     font-size: var(--default-font-size);
     background-color: var(--sidebar-color-light);
+    color: var(--color-white);
     text-align: center;
     top: 0;
     left: 0;
@@ -127,7 +129,7 @@ body.sidenav {
 
 .btn:hover::after {
     transform: scale(2);
-    box-shadow: 0rem 1rem 2rem rgba(var(--color-black), .2);
+    box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, .8);
     opacity: 0;
 }
 
@@ -139,4 +141,94 @@ body.sidenav {
 
 .btn.btn--modal::after {
     background-color: var(--color-grey);
+}
+
+.form__button {
+    display: block;
+    text-align: center;
+    margin: 4.5rem 0;
+}
+
+.btn--default {
+    background-color: var(--button-color);
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform .3s;
+}
+
+.btn--default:hover {
+    transform: translateY(-.5rem);
+    box-shadow: 0rem 1rem 4rem var(--color-black, .2);
+}
+
+.btn--default:active {
+    transform: translateY(.3rem);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .8);
+    background-size: cover;
+    z-index: 1000;
+    display: none;
+}
+
+.modal.show-modal {
+    display: block;
+    animation-name: fade-in;
+    animation-duration: .4s;
+}
+
+.modal__content {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    width: 400px;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: var(--header-color);
+    font-size: var(--default-font-size);
+}
+
+.modal__header {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    padding: 2rem;
+}
+
+.modal__body {
+    color: var(--color-white);
+    padding: 4rem 4rem 1rem 4rem;
+}
+
+.form .form__group > * {
+    display: block;
+    width: 100%;
+}
+
+.form .form__group .form__group--label {
+    margin: 2rem 0;
+}
+
+.form .form__group .form__group--input {
+    padding: .8rem;
+}
+
+@keyframes fade-in{
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
